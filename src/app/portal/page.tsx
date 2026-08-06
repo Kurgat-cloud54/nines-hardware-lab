@@ -1,0 +1,3 @@
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+export default async function Portal() { const supabase = await createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) redirect("/auth/login"); return <main className="mx-auto max-w-5xl p-8"><p className="text-sm font-bold uppercase tracking-wider text-sky-400">Customer portal</p><h1 className="mt-2 text-4xl font-semibold">Welcome to NiNes Hardware Lab</h1><p className="mt-5 max-w-2xl leading-7 text-slate-400">Your secure repair workspace is ready. RMA intake, repair tracking, reports and documents are delivered in the next portal module.</p></main>; }
