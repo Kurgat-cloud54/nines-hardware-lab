@@ -15,7 +15,7 @@ const pages: Record<string, PageContent> = {
     intro: "NiNes Hardware Lab is an enterprise electronics repair laboratory focused on restoring the equipment that keeps organisations connected, operating and productive.",
     sections: [
       { title: "What makes us different", items: ["Component-level diagnosis instead of unnecessary replacement", "Structured testing, burn-in and documented quality assurance", "ESD-conscious handling for sensitive enterprise equipment", "Clear technical communication from intake to final report"] },
-      { title: "Built for continuity", copy: "Our work is designed around one goal: helping organisations protect uptime, extend asset life and control the cost of critical hardware failures.", items: ["Enterprise networking", "Telecommunications infrastructure", "Industrial and power electronics"] },
+      { title: "Built for continuity", copy: "Our work is designed around one goal: helping organisations protect uptime, extend asset life and control the cost of critical hardware failures.", items: ["Enterprise networking", "Telecommunications infrastructure", "Industrial, solar and power electronics"] },
     ],
   },
   services: {
@@ -24,7 +24,7 @@ const pages: Record<string, PageContent> = {
     intro: "From first diagnosis to final verification, every repair follows a controlled engineering process suited to enterprise and industrial equipment.",
     sections: [
       { title: "Networking and telecom", items: ["Enterprise switch repair", "Enterprise router repair", "Telecom equipment repair", "Server hardware repair"] },
-      { title: "Electronics laboratory", items: ["Power supply and PoE module repair", "Industrial electronics repair", "PCB repair and BGA rework", "Failure analysis and reverse engineering"] },
+      { title: "Electronics laboratory", items: ["Power supply and PoE module repair", "Solar inverter repair and diagnostics", "Lithium battery BMS board repair", "Industrial electronics, PCB repair and BGA rework", "Failure analysis and reverse engineering"] },
       { title: "Reliability services", items: ["Preventive maintenance", "Advanced diagnostics and measurements", "Functional testing and burn-in", "Engineering repair reports"] },
     ],
   },
@@ -35,7 +35,7 @@ const pages: Record<string, PageContent> = {
     sections: [
       { title: "Network infrastructure", items: ["Cisco, Juniper, Arista and Dell", "HPE, Aruba, Huawei and MikroTik", "Ubiquiti, Extreme Networks and Fortinet", "Sophos and other enterprise security platforms"] },
       { title: "Telecommunications", items: ["Nokia, Ericsson and ZTE equipment", "Transmission, access and network power systems", "Telecom boards, modules and control assemblies"] },
-      { title: "Power and industrial systems", items: ["Server and industrial power supplies", "Embedded controllers and electronic modules", "Power modules, fans, connectors and PCBs"] },
+      { title: "Power, energy and industrial systems", items: ["Server and industrial power supplies", "Solar inverters and control assemblies", "Lithium battery BMS boards", "Embedded controllers, power modules, fans, connectors and PCBs"] },
     ],
   },
   industries: {

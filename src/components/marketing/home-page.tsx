@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 const services = [
   ["Enterprise Switches", "Cisco, Juniper, Aruba and Dell switching platforms", Network],
   ["Enterprise Routers", "Core, edge and branch networking equipment", Activity],
-  ["Power Systems", "AC/DC, PoE and server power modules", Wrench],
+  ["Power & Energy Systems", "AC/DC, PoE, server power, solar inverter and lithium BMS board repairs", Wrench],
   ["Boards & Modules", "PCB diagnostics, rework and module repair", CircuitBoard],
 ] as const;
 
@@ -28,7 +28,7 @@ const capabilities = [
 const equipmentGroups = [
   ["Enterprise Networking", "Cisco · Juniper · Huawei · Aruba · Dell · HPE · MikroTik · Extreme", Network],
   ["Telecom Infrastructure", "Nokia · Huawei · Ericsson · ZTE", RadioTower],
-  ["Power Electronics", "AC/DC power supplies · PoE supplies · Server PSUs · Industrial PSUs", Cpu],
+  ["Power & Energy Electronics", "AC/DC power supplies · PoE supplies · Server PSUs · Industrial PSUs · Solar inverters · Lithium BMS boards", Cpu],
   ["Electronic Assemblies", "Mainboards · Control boards · Interface boards · Power boards · RF modules", Cable],
 ] as const;
 
