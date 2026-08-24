@@ -1,8 +1,69 @@
 "use client";
+
 import { motion } from "framer-motion";
-import { Activity, ArrowRight, BadgeCheck, Clock3, Cpu, FlaskConical, ShieldCheck, UsersRound, Wrench } from "lucide-react";
+import { Activity, ArrowRight, BadgeCheck, Cable, CircuitBoard, Cpu, FlaskConical, Microscope, Network, RadioTower, ServerCog, ShieldCheck, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
-const services = [["Enterprise Switches","Cisco, Juniper, Aruba and Dell switching platforms",Cpu],["Enterprise Routers","Core, edge and branch networking equipment",Activity],["Power Systems","AC/DC, PoE and server power modules",Wrench],["Boards & Modules","PCB diagnostics, rework and module repair",FlaskConical]] as const;
-const differentiators = [["Component-level expertise","We repair, not just replace.",ShieldCheck],["Advanced diagnostics","Laboratory-grade analysis and testing.",FlaskConical],["Quality assured","Burn-in and documented verification.",BadgeCheck],["Fast turnaround","Reduce downtime and replacement costs.",Clock3]] as const;
-const stats = [["1,000+","Units repaired"],["99%","Customer satisfaction"],["80+","Enterprise clients"],["4+","Years of experience"]] as const;
-export function HomePage() { return <main><section className="hero-glow grid-bg relative overflow-hidden border-b border-blue-950"><div className="mx-auto grid min-h-[620px] max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-[1.05fr_.95fr]"><motion.div initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} transition={{duration:.55}}><p className="mb-5 text-xs font-bold uppercase tracking-wider text-sky-400">Enterprise electronics repair laboratory</p><h1 className="max-w-xl text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl">We Restore.<br/>You Keep Your Network <span className="text-electric">Running.</span></h1><p className="mt-7 max-w-lg leading-7 text-slate-300">Component-level repair of enterprise networking equipment, telecom infrastructure and industrial electronics.</p><div className="mt-8 flex flex-wrap gap-3"><Button href="/rma">Request repair <ArrowRight className="ml-2 h-4 w-4"/></Button><Button href="/contact" variant="outline">Request quote</Button></div></motion.div><motion.div initial={{opacity:0,scale:.96}} animate={{opacity:1,scale:1}} transition={{duration:.7}} className="relative mx-auto w-full max-w-md rounded-xl border border-blue-500/30 bg-slate-950/50 p-8 shadow-glow"><div className="absolute inset-0 rounded-xl bg-[radial-gradient(circle_at_50%_40%,rgba(8,124,255,.28),transparent_46%)]"/><div className="relative"><Cpu className="h-12 w-12 text-electric"/><p className="mt-16 text-sm font-bold uppercase tracking-[.22em] text-blue-300">NiNes Hardware Lab</p><p className="mt-3 text-3xl font-semibold">Critical hardware,<br/>restored precisely.</p><div className="mt-8 grid grid-cols-3 gap-2">{[1,2,3,4,5,6].map(n => <span key={n} className="h-2 rounded bg-blue-500/60"/>)}</div></div></motion.div></div></section><section className="mx-auto -mt-8 grid max-w-7xl gap-px overflow-hidden rounded-lg border border-blue-900/70 bg-blue-900/60 md:grid-cols-4">{differentiators.map(([title,text,Icon]) => <div key={title} className="bg-[#061221] p-6"><Icon className="mb-5 h-8 w-8 text-electric"/><h2 className="font-semibold">{title}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></div>)}</section><section className="mx-auto max-w-7xl px-5 py-24"><div className="flex flex-wrap items-end justify-between gap-6"><div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">What we repair</p><h2 className="mt-2 text-4xl font-semibold">Our Repair Services</h2></div><Button href="/services" variant="outline">View all services</Button></div><div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{services.map(([title,text,Icon], i) => <motion.article initial={{opacity:0,y:14}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*.08}} key={title} className="rounded-lg border border-blue-900/80 bg-panel p-6 hover:border-blue-500/70"><Icon className="h-9 w-9 text-electric"/><h3 className="mt-14 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></motion.article>)}</div></section><section className="border-y border-blue-950 bg-[#05101d]"><div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-blue-950 md:grid-cols-4">{stats.map(([value,label]) => <div key={label} className="p-8 text-center"><div className="text-4xl font-semibold text-electric">{value}</div><div className="mt-2 text-sm text-slate-300">{label}</div></div>)}</div></section><section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-2"><div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">Why choose NiNes Hardware Lab</p><h2 className="mt-3 text-4xl font-semibold leading-tight">Engineering precision.<br/>Trusted results.</h2><p className="mt-6 max-w-md leading-7 text-slate-400">We combine skilled engineering, advanced tools and a structured repair process to deliver dependable, cost-effective solutions for critical hardware.</p><div className="mt-8"><Button href="/about">Learn more about us</Button></div></div><div className="rounded-lg border border-blue-900 bg-panel p-7"><h3 className="text-xl font-semibold">Laboratory standards, every repair</h3>{["Documented intake and chain of custody","Board-level diagnostics and controlled rework","Functional testing, burn-in and QA","Clear repair reports and warranty records"].map(item => <div key={item} className="mt-5 flex gap-3 text-slate-300"><BadgeCheck className="h-5 w-5 shrink-0 text-electric"/>{item}</div>)}</div></section><section className="border-t border-blue-950 py-10"><div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-5 px-5 text-sm text-slate-400"><span>ESD-safe laboratory</span><span>Secure handling & data protection</span><span>Warranty on all repairs</span><span>Global quality standards</span></div></section></main>; }
+
+const services = [
+  ["Enterprise Switches", "Cisco, Juniper, Aruba and Dell switching platforms", Network],
+  ["Enterprise Routers", "Core, edge and branch networking equipment", Activity],
+  ["Power Systems", "AC/DC, PoE and server power modules", Wrench],
+  ["Boards & Modules", "PCB diagnostics, rework and module repair", CircuitBoard],
+] as const;
+
+const differentiators = [
+  ["Component-level expertise", "We repair, not just replace.", ShieldCheck],
+  ["Advanced diagnostics", "Laboratory-grade analysis and testing.", FlaskConical],
+  ["Quality assured", "Burn-in and documented verification.", BadgeCheck],
+  ["Enterprise focus", "Built for critical infrastructure hardware.", ServerCog],
+] as const;
+
+const capabilities = [
+  ["Component-Level Repair", "Board-level diagnosis and rework", CircuitBoard],
+  ["Advanced Diagnostics", "Testing, measurements and analysis", Microscope],
+  ["Enterprise Hardware", "Critical networking and telecom systems", Network],
+  ["Engineering Expertise", "Evidence-led repair and verification", FlaskConical],
+] as const;
+
+const equipmentGroups = [
+  ["Enterprise Networking", "Cisco · Juniper · Huawei · Aruba · Dell · HPE · MikroTik · Extreme", Network],
+  ["Telecom Infrastructure", "Nokia · Huawei · Ericsson · ZTE", RadioTower],
+  ["Power Electronics", "AC/DC power supplies · PoE supplies · Server PSUs · Industrial PSUs", Cpu],
+  ["Electronic Assemblies", "Mainboards · Control boards · Interface boards · Power boards · RF modules", Cable],
+] as const;
+
+export function HomePage() {
+  return <main>
+    <section className="hero-glow grid-bg relative overflow-hidden border-b border-blue-950">
+      <div className="mx-auto grid min-h-[640px] max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-[1.05fr_.95fr]">
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
+          <p className="mb-5 text-xs font-bold uppercase tracking-wider text-sky-400">Enterprise electronics repair laboratory</p>
+          <h1 className="max-w-xl text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl">We Restore.<br />You Keep Your Network <span className="text-electric">Running.</span></h1>
+          <p className="mt-7 max-w-lg leading-7 text-slate-300">Component-level repair of enterprise networking equipment, telecom infrastructure and industrial electronics.</p>
+          <div className="mt-8 flex flex-wrap gap-3"><Button href="/contact">Talk to an engineer <ArrowRight className="ml-2 h-4 w-4" /></Button><Button href="/services" variant="outline">Explore capabilities</Button></div>
+        </motion.div>
+        <motion.div initial={{ opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .7 }} className="lab-visual relative mx-auto flex aspect-[4/3] w-full max-w-xl items-end overflow-hidden rounded-xl border border-blue-500/30 shadow-glow">
+          <div className="relative z-10 w-full bg-gradient-to-t from-[#030b15] via-[#030b15]/85 to-transparent p-8 sm:p-10">
+            <p className="text-xs font-bold uppercase tracking-[.22em] text-blue-300">Inside the laboratory</p>
+            <p className="mt-3 max-w-sm text-3xl font-semibold leading-tight">Diagnose precisely.<br />Restore confidently.</p>
+            <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">A dedicated image of the NiNes laboratory will appear here.</p>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+
+    <section className="mx-auto -mt-8 grid max-w-7xl gap-px overflow-hidden rounded-lg border border-blue-900/70 bg-blue-900/60 md:grid-cols-4">{differentiators.map(([title, text, Icon]) => <div key={title} className="bg-[#061221] p-6"><Icon className="mb-5 h-8 w-8 text-electric" /><h2 className="font-semibold">{title}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></div>)}</section>
+
+    <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[.85fr_1.15fr]">
+      <div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">Why NiNes</p><h2 className="mt-3 text-4xl font-semibold leading-tight">We Repair What<br />Others Replace.</h2><p className="mt-6 max-w-md leading-7 text-slate-300">When an expensive enterprise board fails outside warranty, replacement is not always the only option. NiNes Hardware Lab performs component-level diagnosis, repair and validation to restore hardware and reduce equipment replacement costs.</p><div className="mt-8"><Button href="/about">Why work with us <ArrowRight className="ml-2 h-4 w-4" /></Button></div></div>
+      <div className="grid gap-4 sm:grid-cols-2">{capabilities.map(([title, text, Icon]) => <article key={title} className="rounded-lg border border-blue-900/80 bg-panel p-6"><Icon className="h-8 w-8 text-electric" /><h3 className="mt-12 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></article>)}</div>
+    </section>
+
+    <section className="border-y border-blue-950 bg-[#05101d]"><div className="mx-auto max-w-7xl px-5 py-20"><div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-wider text-sky-400">What we repair</p><h2 className="mt-2 text-4xl font-semibold">Built for enterprise infrastructure.</h2><p className="mt-5 leading-7 text-slate-400">We support critical networking, telecommunications, power and electronic systems from leading manufacturers.</p></div><div className="mt-10 grid gap-5 md:grid-cols-2">{equipmentGroups.map(([title, brands, Icon]) => <article key={title} className="rounded-lg border border-blue-900/80 bg-[#061221] p-6"><Icon className="h-8 w-8 text-electric" /><h3 className="mt-8 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-7 text-slate-300">{brands}</p></article>)}</div></div></section>
+
+    <section className="mx-auto max-w-7xl px-5 py-24"><div className="flex flex-wrap items-end justify-between gap-6"><div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">Engineering services</p><h2 className="mt-2 text-4xl font-semibold">Our Repair Services</h2></div><Button href="/services" variant="outline">View all services</Button></div><div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{services.map(([title, text, Icon], index) => <motion.article initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }} key={title} className="rounded-lg border border-blue-900/80 bg-panel p-6 hover:border-blue-500/70"><Icon className="h-9 w-9 text-electric" /><h3 className="mt-14 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></motion.article>)}</div></section>
+
+    <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-2"><div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">Why choose NiNes Hardware Lab</p><h2 className="mt-3 text-4xl font-semibold leading-tight">Engineering precision.<br />Trusted results.</h2><p className="mt-6 max-w-md leading-7 text-slate-400">We combine skilled engineering, advanced tools and a structured repair process to deliver dependable, cost-effective solutions for critical hardware.</p><div className="mt-8"><Button href="/about">Learn more about us</Button></div></div><div className="rounded-lg border border-blue-900 bg-panel p-7"><h3 className="text-xl font-semibold">Laboratory standards, every repair</h3>{["Documented intake and chain of custody", "Board-level diagnostics and controlled rework", "Functional testing, burn-in and QA", "Clear repair reports and warranty records"].map(item => <div key={item} className="mt-5 flex gap-3 text-slate-300"><BadgeCheck className="h-5 w-5 shrink-0 text-electric" />{item}</div>)}</div></section>
+    <section className="border-t border-blue-950 py-10"><div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-5 px-5 text-sm text-slate-400"><span>ESD-safe laboratory</span><span>Secure handling & data protection</span><span>Warranty on all repairs</span><span>Global quality standards</span></div></section>
+  </main>;
+}
