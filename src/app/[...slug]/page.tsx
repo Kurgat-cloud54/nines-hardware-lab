@@ -21,21 +21,23 @@ const pages: Record<string, PageContent> = {
   services: {
     eyebrow: "Engineering services",
     title: "Restore hardware. Protect uptime.",
-    intro: "From first diagnosis to final verification, every repair follows a controlled engineering process suited to enterprise and industrial equipment.",
+    intro: "From solar inverters to network switches, DVRs and power electronics — every repair follows a controlled engineering process with documented results.",
     sections: [
-      { title: "Networking and telecom", items: ["Enterprise switch repair", "Enterprise router repair", "Telecom equipment repair", "Server hardware repair"] },
-      { title: "Electronics laboratory", items: ["Power supply and PoE module repair", "Solar inverter repair and diagnostics", "Lithium battery BMS board repair", "Industrial electronics, PCB repair and BGA rework", "Failure analysis and reverse engineering"] },
-      { title: "Reliability services", items: ["Preventive maintenance", "Advanced diagnostics and measurements", "Functional testing and burn-in", "Engineering repair reports"] },
+      { title: "Solar & energy systems", items: ["Grid-tie, hybrid and off-grid solar inverter repair", "Charge controller diagnostics and repair", "Lithium battery BMS board repair", "MPPT stage, DC bus and control board rework", "Firmware integrity and configuration checks"] },
+      { title: "Networking & surveillance", items: ["MikroTik, TP-Link, D-Link and Tenda switch/router repair", "Cisco, Juniper, Aruba, HPE and Huawei platforms", "PoE port, management board and power-stage repair", "DVR and NVR mainboard repair", "CCTV camera board and PoE supply restoration"] },
+      { title: "Electronics laboratory", items: ["Power supply and PoE module repair", "Industrial electronics, PCB repair and BGA rework", "Failure analysis and reverse engineering", "Preventive maintenance and measurements"] },
+      { title: "Reliability services", items: ["Functional testing under load", "Burn-in and quality assurance", "Engineering repair reports", "Warranty records and documentation"] },
     ],
   },
   equipment: {
     eyebrow: "Equipment we repair",
-    title: "Enterprise equipment deserves expert repair.",
-    intro: "We focus on high-value, mission-critical electronics where dependable restoration matters more than quick replacement.",
+    title: "Critical equipment deserves expert repair.",
+    intro: "We focus on high-value, mission-critical electronics — solar energy systems, network infrastructure, surveillance recorders and industrial boards — where dependable restoration matters more than quick replacement.",
     sections: [
-      { title: "Network infrastructure", items: ["Cisco, Juniper, Arista and Dell", "HPE, Aruba, Huawei and MikroTik", "Ubiquiti, Extreme Networks and Fortinet", "Sophos and other enterprise security platforms"] },
-      { title: "Telecommunications", items: ["Nokia, Ericsson and ZTE equipment", "Transmission, access and network power systems", "Telecom boards, modules and control assemblies"] },
-      { title: "Power, energy and industrial systems", items: ["Server and industrial power supplies", "Solar inverters and control assemblies", "Lithium battery BMS boards", "Embedded controllers, power modules, fans, connectors and PCBs"] },
+      { title: "Solar & energy systems", items: ["Growatt, Victron, Deye, Sunsynk and Luxpower inverters", "Hybrid and off-grid inverter control boards", "Solar charge controllers and MPPT units", "Lithium battery BMS boards", "Server, industrial and PoE power supplies"] },
+      { title: "Network switches & routers", items: ["MikroTik, TP-Link, D-Link and Tenda", "Cisco, Juniper, Aruba, HPE and Huawei", "Ubiquiti, Extreme Networks and Fortinet", "Sophos and other enterprise security platforms", "PoE injectors, media converters and access points"] },
+      { title: "CCTV & surveillance", items: ["Hikvision, Dahua and Uniview DVRs/NVRs", "CCTV camera mainboards and sensor modules", "Surveillance PoE supplies and injectors", "Video baluns, transceivers and cabling electronics"] },
+      { title: "General electronics", items: ["Embedded controllers and single-board computers", "Control, interface and power boards", "RF modules and communication assemblies", "Fans, connectors and component-level rework"] },
     ],
   },
   industries: {
@@ -110,7 +112,13 @@ const icons = [Network, RadioTower, Cpu, ServerCog, Cable, Wrench, FlaskConical,
 export async function generateMetadata({ params }: { params: Promise<{ slug: string[] }> }): Promise<Metadata> {
   const { slug } = await params;
   const page = pages[slug.join("/")];
-  return page ? { title: page.title, description: page.intro } : {};
+  if (!page) return {};
+  return {
+    title: page.title,
+    description: page.intro,
+    alternates: { canonical: `/${slug.join("/")}` },
+    openGraph: { title: `${page.title} | NiNes Hardware Lab`, description: page.intro, url: `/${slug.join("/")}`, siteName: "NiNes Hardware Lab", type: "website" },
+  };
 }
 
 export default async function MarketingPage({ params }: { params: Promise<{ slug: string[] }> }) {

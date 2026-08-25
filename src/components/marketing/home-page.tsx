@@ -5,10 +5,12 @@ import { Activity, ArrowRight, BadgeCheck, Cable, CircuitBoard, Cpu, FlaskConica
 import { Button } from "@/components/ui/button";
 
 const services = [
-  ["Enterprise Switches", "Cisco, Juniper, Aruba and Dell switching platforms", Network],
-  ["Enterprise Routers", "Core, edge and branch networking equipment", Activity],
-  ["Power & Energy Systems", "AC/DC, PoE, server power, solar inverter and lithium BMS board repairs", Wrench],
-  ["Boards & Modules", "PCB diagnostics, rework and module repair", CircuitBoard],
+  ["Solar Inverter Repair", "Grid-tie, hybrid and off-grid inverter diagnostics, board repair and firmware checks", Activity],
+  ["Network Switch & Router Repair", "MikroTik, TP-Link, D-Link, Tenda, Cisco, Juniper and more — PoE, management boards and ports", Network],
+  ["DVR & NVR Repair", "CCTV recorder mainboard repair, HDD interface and power-stage restoration", ServerCog],
+  ["Power & BMS Boards", "AC/DC supplies, PoE injectors, server PSUs and lithium BMS board repair", Wrench],
+  ["Boards & Modules", "PCB diagnostics, rework and module repair for all electronic assemblies", CircuitBoard],
+  ["Failure Analysis", "Root-cause investigation with documented evidence and prevention advice", FlaskConical],
 ] as const;
 
 const differentiators = [
@@ -26,10 +28,10 @@ const capabilities = [
 ] as const;
 
 const equipmentGroups = [
-  ["Enterprise Networking", "Cisco · Juniper · Huawei · Aruba · Dell · HPE · MikroTik · Extreme", Network],
-  ["Telecom Infrastructure", "Nokia · Huawei · Ericsson · ZTE", RadioTower],
-  ["Power & Energy Electronics", "AC/DC power supplies · PoE supplies · Server PSUs · Industrial PSUs · Solar inverters · Lithium BMS boards", Cpu],
-  ["Electronic Assemblies", "Mainboards · Control boards · Interface boards · Power boards · RF modules", Cable],
+  ["Solar Inverters & Energy", "Grid-tie · Hybrid · Off-grid inverters · Charge controllers · Lithium BMS boards", Cpu],
+  ["Network Switches & Routers", "MikroTik · TP-Link · D-Link · Tenda · Cisco · Juniper · Huawei · Aruba · HPE · Ubiquiti", Network],
+  ["CCTV & Surveillance", "DVRs · NVRs · Camera boards · PoE supplies · Hikvision · Dahua · Uniview", ServerCog],
+  ["Power & Electronic Assemblies", "AC/DC power supplies · Server PSUs · Control boards · Interface boards · RF modules", Cable],
 ] as const;
 
 export function HomePage() {
@@ -46,7 +48,11 @@ export function HomePage() {
           <div className="relative z-10 w-full bg-gradient-to-t from-[#030b15] via-[#030b15]/85 to-transparent p-8 sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[.22em] text-blue-300">Inside the laboratory</p>
             <p className="mt-3 max-w-sm text-3xl font-semibold leading-tight">Diagnose precisely.<br />Restore confidently.</p>
-            <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">A dedicated image of the NiNes laboratory will appear here.</p>
+            <ul className="mt-5 space-y-2 text-sm text-slate-300">
+              <li className="flex items-center gap-2"><CircuitBoard className="h-4 w-4 text-electric" /> Board-level diagnostics &amp; BGA rework</li>
+              <li className="flex items-center gap-2"><Activity className="h-4 w-4 text-electric" /> Load, thermal &amp; burn-in testing</li>
+              <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-electric" /> ESD-safe benches, documented QA</li>
+            </ul>
           </div>
         </motion.div>
       </div>
