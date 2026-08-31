@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 const BASE = "https://nineshardwarelab.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/about", "/services", "/equipment", "/industries", "/repair-process", "/failure-analysis", "/knowledge-centre", "/careers", "/contact", "/rma", "/privacy", "/terms"];
+  const routes = ["", "/about", "/services", "/equipment", "/industries", "/gallery", "/repair-process", "/failure-analysis", "/knowledge-centre", "/careers", "/contact", "/rma", "/privacy", "/terms"];
   return routes.map((route) => ({
     url: `${BASE}${route}`,
     lastModified: new Date(),

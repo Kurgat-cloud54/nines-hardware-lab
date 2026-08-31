@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Mail, MessageCircle, Phone } from "lucide-react";
 
 const navigation = [
-  ["About us", "/about"], ["Services", "/services"], ["Equipment", "/equipment"], ["Industries", "/industries"],
+  ["About us", "/about"], ["Services", "/services"], ["Equipment", "/equipment"], ["Industries", "/industries"], ["Gallery", "/gallery"],
   ["Repair process", "/repair-process"], ["Failure analysis", "/failure-analysis"], ["Knowledge centre", "/knowledge-centre"], ["Careers", "/careers"],
 ] as const;
 
