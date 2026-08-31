@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, ArrowRight, BadgeCheck, Cable, CircuitBoard, Cpu, FlaskConical, Microscope, Network, RadioTower, ServerCog, ShieldCheck, Wrench } from "lucide-react";
+import { Activity, ArrowRight, BadgeCheck, Cable, CircuitBoard, Cpu, FlaskConical, Microscope, Network, RadioTower, Recycle, ServerCog, ShieldCheck, Wallet, Wrench, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const services = [
@@ -14,10 +14,10 @@ const services = [
 ] as const;
 
 const differentiators = [
-  ["Component-level expertise", "We repair, not just replace.", ShieldCheck],
-  ["Advanced diagnostics", "Laboratory-grade analysis and testing.", FlaskConical],
-  ["Quality assured", "Burn-in and documented verification.", BadgeCheck],
-  ["Enterprise focus", "Built for critical infrastructure hardware.", ServerCog],
+  ["Cut replacement costs", "Restore critical hardware at a fraction of the price of buying new.", Wallet],
+  ["Maximum uptime", "Fast, controlled turnaround keeps your network, systems and solar power running.", Zap],
+  ["The green choice", "Every repair extends equipment life and diverts e-waste from landfill.", Recycle],
+  ["Enterprise expertise", "Component-level repair, diagnostics and QA for critical infrastructure.", ServerCog],
 ] as const;
 
 const capabilities = [
@@ -40,9 +40,9 @@ export function HomePage() {
       <div className="mx-auto grid min-h-[640px] max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-[1.05fr_.95fr]">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
           <p className="mb-5 text-xs font-bold uppercase tracking-wider text-sky-400">Enterprise electronics repair laboratory</p>
-          <h1 className="max-w-xl text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl">We Restore.<br />You Keep Your Network <span className="text-electric">Running.</span></h1>
-          <p className="mt-7 max-w-lg leading-7 text-slate-300">Component-level repair of enterprise networking equipment, telecom infrastructure and industrial electronics.</p>
-          <div className="mt-8 flex flex-wrap gap-3"><Button href="/contact">Talk to an engineer <ArrowRight className="ml-2 h-4 w-4" /></Button><Button href="/services" variant="outline">Explore capabilities</Button></div>
+          <h1 className="max-w-xl text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl">Repair First.<br />Keep Your Systems <span className="text-electric">Running.</span></h1>
+          <p className="mt-7 max-w-lg leading-7 text-slate-300">Component-level repair of enterprise networking, telecom, solar and industrial electronics — saving businesses the cost of replacement, preventing downtime and keeping e-waste out of landfill.</p>
+          <div className="mt-8 flex flex-wrap gap-3"><Button href="/contact">Talk to an engineer <ArrowRight className="ml-2 h-4 w-4" /></Button><Button href="/why-repair" variant="outline">Repair vs. replace</Button></div>
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .7 }} className="lab-visual relative mx-auto flex aspect-[4/3] w-full max-w-xl items-end overflow-hidden rounded-xl border border-blue-500/30 shadow-glow">
           <div className="relative z-10 w-full bg-gradient-to-t from-[#030b15] via-[#030b15]/85 to-transparent p-8 sm:p-10">
@@ -61,7 +61,7 @@ export function HomePage() {
     <section className="mx-auto -mt-8 grid max-w-7xl gap-px overflow-hidden rounded-lg border border-blue-900/70 bg-blue-900/60 md:grid-cols-4">{differentiators.map(([title, text, Icon]) => <div key={title} className="bg-[#061221] p-6"><Icon className="mb-5 h-8 w-8 text-electric" /><h2 className="font-semibold">{title}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></div>)}</section>
 
     <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-[.85fr_1.15fr]">
-      <div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">Why NiNes</p><h2 className="mt-3 text-4xl font-semibold leading-tight">We Repair What<br />Others Replace.</h2><p className="mt-6 max-w-md leading-7 text-slate-300">When an expensive enterprise board fails outside warranty, replacement is not always the only option. NiNes Hardware Lab performs component-level diagnosis, repair and validation to restore hardware and reduce equipment replacement costs.</p><div className="mt-8"><Button href="/about">Why work with us <ArrowRight className="ml-2 h-4 w-4" /></Button></div></div>
+      <div><p className="text-xs font-bold uppercase tracking-wider text-sky-400">Why NiNes</p><h2 className="mt-3 text-4xl font-semibold leading-tight">We Repair What<br />Others Replace.</h2><p className="mt-6 max-w-md leading-7 text-slate-300">When an expensive enterprise board fails outside warranty, replacement is not always the only option. NiNes Hardware Lab performs component-level diagnosis, repair and validation to restore hardware, reduce equipment replacement costs and extend the life of your investment — the sustainable alternative to buying new.</p><div className="mt-8"><Button href="/why-repair">Repair vs. replace <ArrowRight className="ml-2 h-4 w-4" /></Button></div></div>
       <div className="grid gap-4 sm:grid-cols-2">{capabilities.map(([title, text, Icon]) => <article key={title} className="rounded-lg border border-blue-900/80 bg-panel p-6"><Icon className="h-8 w-8 text-electric" /><h3 className="mt-12 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></article>)}</div>
     </section>
 
