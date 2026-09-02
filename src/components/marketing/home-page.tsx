@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, ArrowRight, BadgeCheck, Cable, CircuitBoard, Cpu, FlaskConical, Microscope, Network, RadioTower, Recycle, ServerCog, ShieldCheck, Wallet, Wrench, Zap } from "lucide-react";
+import { Activity, ArrowRight, BadgeCheck, Cable, CalendarClock, CircuitBoard, ClipboardCheck, Cpu, FlaskConical, Microscope, Network, RadioTower, Recycle, ServerCog, ShieldCheck, Wallet, Wrench, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const services = [
@@ -11,6 +11,8 @@ const services = [
   ["Power & BMS Boards", "AC/DC supplies, PoE injectors, server PSUs and lithium BMS board repair", Wrench],
   ["Boards & Modules", "PCB diagnostics, rework and module repair for all electronic assemblies", CircuitBoard],
   ["Failure Analysis", "Root-cause investigation with documented evidence and prevention advice", FlaskConical],
+  ["Repair-vs-Replace Assessment", "An honest engineering opinion on whether repair is the smarter economic choice — before you spend", ClipboardCheck],
+  ["Preventive Maintenance", "Inspection, testing and burn-in programmes that extend asset life and prevent costly failures", CalendarClock],
 ] as const;
 
 const differentiators = [
