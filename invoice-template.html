@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice - NiNes Hardware Lab</title>
+  <style>
+    :root {
+      --primary: #166534;        /* Deep green - matches their sustainable brand */
+      --primary-light: #1a8a42;
+      --primary-dark: #14532d;
+      --accent: #22c55e;         /* Bright green accent */
+      --background: #f8faf8;     /* Light green-tinted background */
+      --surface: #ffffff;
+      --foreground: #1a1f1a;
+      --muted: #6b7d6b;
+      --muted-light: #e8efe8;
+      --border: #d4e0d4;
+      --border-strong: #b8cbb8;
+      --shadow: rgba(22, 101, 52, 0.08);
+      --shadow-strong: rgba(22, 101, 52, 0.15);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .invoice-container {
+      max-width: 794px; /* A4 width at 96dpi */
+      margin: 0 auto;
+      background: var(--surface);
+      box-shadow: 0 0 0 1px var(--border), 0 4px 24px var(--shadow);
+      min-height: 1123px; /* A4 height at 96dpi */
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; }
+      .invoice-container { box-shadow: none; max-width: none; min-height: auto; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+    }
+
+    /* Header */
+    .invoice-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 40px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .invoice-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 100%;
+      height: 200%;
+      background: radial-gradient(ellipse, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .company-brand {
+      flex: 1;
+    }
+
+    .company-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--primary-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .company-name {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .company-tagline {
+      font-size: 14px;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-top: 4px;
+      color: #dcfce7;
+    }
+
+    .company-details {
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.85;
+      line-height: 1.8;
+    }
+
+    .company-details a {
+      color: #dcfce7;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .company-details a:hover { color: white; }
+
+    .invoice-meta {
+      text-align: right;
+      min-width: 260px;
+    }
+
+    .invoice-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .invoice-number {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+
+    .invoice-dates {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .date-row { display: flex; justify-content: flex-end; gap: 16px; }
+    .date-label { font-weight: 500; opacity: 0.7; }
+    .date-value { font-weight: 600; }
+
+    /* Main content */
+    .invoice-body {
+      padding: 40px 48px;
+    }
+
+    /* From/To section */
+    .parties-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .party-block {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .party-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .party-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 10px;
+    }
+
+    .party-details {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .party-details a { color: var(--primary); text-decoration: none; }
+    .party-details a:hover { text-decoration: underline; }
+
+    /* Invoice items table */
+    .items-section { margin-bottom: 32px; }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      background: var(--background);
+      border-bottom: 2px solid var(--border);
+    }
+
+    th {
+      text-align: left;
+      padding: 14px 16px;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+    }
+
+    th:last-child,
+    th:nth-last-child(2),
+    th:nth-last-child(3) { text-align: right; }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    tbody tr:hover { background: var(--background); }
+
+    .item-name { font-weight: 500; color: var(--foreground); }
+    .item-desc { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .item-qty { text-align: center; color: var(--foreground); font-variant-numeric: tabular-nums; }
+    .item-rate,
+    .item-amount { text-align: right; font-variant-numeric: tabular-nums; color: var(--foreground); }
+    .item-amount { font-weight: 600; color: var(--primary); }
+
+    /* Totals */
+    .totals-section {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .totals-table {
+      width: 320px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .totals-table table { border-collapse: collapse; }
+    .totals-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .totals-table tr:last-child td { border-bottom: none; }
+    .totals-table .label { color: var(--muted); font-weight: 500; }
+    .totals-table .value { text-align: right; font-weight: 600; color: var(--foreground); font-variant-numeric: tabular-nums; }
+    .totals-table .subtotal-row td { background: var(--background); }
+    .totals-table .total-row {
+      background: var(--primary);
+      color: white;
+    }
+    .totals-table .total-row td { border-bottom: none; }
+    .totals-table .total-row .label,
+    .totals-table .total-row .value { color: white; }
+    .totals-table .total-row .value { font-size: 16px; font-weight: 700; }
+
+    .tax-row .label::after { content: ' (16%)'; font-weight: 400; font-size: 11px; opacity: 0.7; }
+
+    /* Notes section */
+    .notes-section {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .note-block {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .note-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .note-title::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .note-content {
+      font-size: 13px;
+      color: var(--foreground);
+      line-height: 1.7;
+    }
+
+    .note-content ul { margin-left: 16px; margin-top: 8px; }
+    .note-content li { margin-bottom: 6px; color: var(--muted); }
+
+    /* Footer */
+    .invoice-footer {
+      padding: 32px 48px;
+      background: var(--background);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: white;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-text strong { color: var(--foreground); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-links a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--primary-light); text-decoration: underline; }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-draft { background: #fef3c7; color: #92400e; }
+    .status-sent { background: #dbeafe; color: #1e40af; }
+    .status-paid { background: #dcfce7; color: #166534; }
+    .status-overdue { background: #fee2e2; color: #991b1b; }
+
+    /* Print button */
+    .print-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--shadow-strong);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      z-index: 100;
+    }
+
+    .print-btn:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow-strong); }
+    .print-btn:active { transform: translateY(0); }
+    .print-btn svg { width: 18px; height: 18px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; }
+      .invoice-meta { text-align: left; }
+      .parties-section { grid-template-columns: 1fr; }
+      .notes-section { grid-template-columns: 1fr; }
+      .invoice-header, .invoice-body, .invoice-footer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="invoice-container">
+    <!-- Header -->
+    <header class="invoice-header">
+      <div class="header-content">
+        <div class="company-brand">
+          <div class="company-logo">
+            <div class="logo-mark">N</div>
+            <span class="company-name">NiNes Hardware Lab</span>
+          </div>
+          <div class="company-tagline">Enterprise Electronics Repair Laboratory</div>
+          <div class="company-details">
+            <div>📞 +254 181 246 914</div>
+            <div>✉️ <a href="mailto:nineshardware.lab@gmail.com">nineshardware.lab@gmail.com</a></div>
+            <div>🌐 <a href="https://nines-hardware-lab.vercel.app/" target="_blank">nines-hardware-lab.vercel.app</a></div>
+            <div>📍 Nairobi, Kenya</div>
+          </div>
+        </div>
+        <div class="invoice-meta">
+          <div class="invoice-label">Tax Invoice</div>
+          <div class="invoice-number">INV-2026-0042</div>
+          <div class="invoice-dates">
+            <div class="date-row">
+              <span class="date-label">Issue Date:</span>
+              <span class="date-value" id="issue-date">September 9, 2026</span>
+            </div>
+            <div class="date-row">
+              <span class="date-label">Due Date:</span>
+              <span class="date-value" id="due-date">September 23, 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <main class="invoice-body">
+      <!-- From/To -->
+      <section class="parties-section">
+        <div class="party-block">
+          <div class="party-title">From</div>
+          <div class="party-name">NiNes Hardware Lab</div>
+          <div class="party-details">
+            Enterprise Electronics Repair Laboratory<br>
+            <a href="mailto:nineshardware.lab@gmail.com">nineshardware.lab@gmail.com</a><br>
+            +254 181 246 914<br>
+            <a href="https://nines-hardware-lab.vercel.app/" target="_blank">nines-hardware-lab.vercel.app</a><br>
+            Nairobi, Kenya
+          </div>
+        </div>
+        <div class="party-block">
+          <div class="party-title">Bill To</div>
+          <div class="party-name" id="client-name">[Client Name]</div>
+          <div class="party-details" id="client-details">
+            [Client Company Name]<br>
+            [Client Email]<br>
+            [Client Phone]<br>
+            [Client Address]
+          </div>
+        </div>
+      </section>
+
+      <!-- Status badge -->
+      <div style="margin-bottom: 24px; display: flex; justify-content: flex-end;">
+        <span class="status-badge status-draft" id="status-badge">Draft</span>
+      </div>
+
+      <!-- Items -->
+      <section class="items-section">
+        <h2 class="section-title">Repair Services</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 45%;">Description</th>
+                <th style="width: 10%;">Qty</th>
+                <th style="width: 20%;">Unit Price (KES)</th>
+                <th style="width: 20%;">Amount (KES)</th>
+              </tr>
+            </thead>
+            <tbody id="items-body">
+              <tr>
+                <td>
+                  <div class="item-name">Solar Inverter Diagnostics & Board Repair</div>
+                  <div class="item-desc">Component-level diagnosis and rework of Growatt 5kW hybrid inverter mainboard (failed MOSFET replacement, capacitor refresh, firmware verification)</div>
+                </td>
+                <td class="item-qty">1</td>
+                <td class="item-rate">18,500.00</td>
+                <td class="item-amount">18,500.00</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="item-name">MikroTik CRS326-24G-2S+RM Switch Repair</div>
+                  <div class="item-desc">Port failure diagnostics — replaced 4× SFP+ transceiver modules, PoE controller IC rework, full burn-in testing (48hrs)</div>
+                </td>
+                <td class="item-qty">1</td>
+                <td class="item-rate">24,800.00</td>
+                <td class="item-amount">24,800.00</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="item-name">Hikvision DVR Mainboard Restoration</div>
+                  <div class="item-desc">Power stage repair on DS-7608NI-K2/8P — replaced PWM controller, MOSFET array, HDD interface protection diodes</div>
+                </td>
+                <td class="item-qty">1</td>
+                <td class="item-rate">12,000.00</td>
+                <td class="item-amount">12,000.00</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="item-name">Victron Energy MultiPlus-II 48/5000 Inverter Service</div>
+                  <div class="item-desc">Preventive maintenance — thermal imaging, capacitor health check, firmware update to v2.20, load bank test</div>
+                </td>
+                <td class="item-qty">1</td>
+                <td class="item-rate">8,500.00</td>
+                <td class="item-amount">8,500.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Totals -->
+      <section class="totals-section">
+        <div class="totals-table">
+          <table>
+            <tbody>
+              <tr class="subtotal-row">
+                <td class="label">Subtotal</td>
+                <td class="value" id="subtotal">63,800.00</td>
+              </tr>
+              <tr class="tax-row">
+                <td class="label">VAT (16%)</td>
+                <td class="value" id="vat">10,208.00</td>
+              </tr>
+              <tr class="total-row">
+                <td class="label">Total Due</td>
+                <td class="value" id="total">74,008.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Notes -->
+      <section class="notes-section">
+        <div class="note-block">
+          <div class="note-title">Payment Details</div>
+          <div class="note-content">
+            <strong>Bank Transfer (Preferred):</strong><br>
+            Account: NiNes Hardware Lab<br>
+            Bank: Equity Bank Kenya<br>
+            Account No: 0480298765432<br>
+            Branch: Westlands<br>
+            Swift: EQBLKENA<br>
+            <br>
+            <strong>M-Pesa Paybill:</strong><br>
+            Business No: 400200<br>
+            Account: INV-2026-0042
+          </div>
+        </div>
+        <div class="note-block">
+          <div class="note-title">Terms & Notes</div>
+          <div class="note-content">
+            <ul>
+              <li>Payment due within 14 days of invoice date</li>
+              <li>All repairs carry 90-day warranty on parts & labor</li>
+              <li>Repaired items held for 30 days post-collection notice</li>
+              <li>Component-level repair reports available on request</li>
+              <li>ESD-safe handling & documented QA on all work</li>
+            </ul>
+            <p style="margin-top: 12px; font-style: italic; color: var(--muted);">
+              "Repair First. Keep Your Systems Running." — Every repair extends equipment life and diverts e-waste from landfill.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="invoice-footer">
+      <div class="footer-brand">
+        <div class="footer-logo">N</div>
+        <div class="footer-text">
+          <strong>NiNes Hardware Lab</strong> — Enterprise Electronics Repair
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:nineshardware.lab@gmail.com">nineshardware.lab@gmail.com</a>
+        <span>|</span>
+        <a href="tel:+254181246914">+254 181 246 914</a>
+        <span>|</span>
+        <a href="https://nines-hardware-lab.vercel.app/" target="_blank">nines-hardware-lab.vercel.app</a>
+      </div>
+    </footer>
+  </div>
+
+  <button class="print-btn no-print" onclick="window.print()" aria-label="Print or save as PDF">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"></polyline>
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5"></path>
+      <path d="M18 18h2a2 2 0 0 0 2-2v-5"></path>
+      <line x1="12" y1="9" x2="12" y2="15"></line>
+    </svg>
+    Print / Save as PDF
+  </button>
+
+  <script>
+    // Auto-calculate totals
+    function calculateTotals() {
+      const rows = document.querySelectorAll('#items-body tr');
+      let subtotal = 0;
+      rows.forEach(row => {
+        const qty = parseFloat(row.querySelector('.item-qty').textContent) || 0;
+        const rate = parseFloat(row.querySelector('.item-rate').textContent) || 0;
+        const amount = qty * rate;
+        row.querySelector('.item-amount').textContent = amount.toFixed(2);
+        subtotal += amount;
+      });
+      const vat = subtotal * 0.16;
+      const total = subtotal + vat;
+      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+      document.getElementById('vat').textContent = vat.toFixed(2);
+      document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    // Set dates
+    const today = new Date();
+    const dueDate = new Date(today);
+    dueDate.setDate(dueDate.getDate() + 14);
+
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('issue-date').textContent = today.toLocaleDateString('en-KE', options);
+    document.getElementById('due-date').textContent = dueDate.toLocaleDateString('en-KE', options);
+
+    // Initial calculation
+    calculateTotals();
+
+    // Make invoice editable for customization
+    document.addEventListener('dblclick', (e) => {
+      if (e.target.matches('.party-name, .party-details, .item-name, .item-desc, .item-qty, .item-rate, .note-content')) {
+        e.target.contentEditable = true;
+        e.target.focus();
+        e.target.style.outline = '2px solid var(--accent)';
+        e.target.style.borderRadius = '4px';
+        e.target.style.padding = '2px 4px';
+      }
+    });
+
+    document.addEventListener('blur', (e) => {
+      if (e.target.isContentEditable) {
+        e.target.contentEditable = false;
+        e.target.style.outline = 'none';
+        e.target.style.borderRadius = '';
+        e.target.style.padding = '';
+        calculateTotals();
+      }
+    }, true);
+
+    // Keyboard support for editing
+    document.addEventListener('keydown', (e) => {
+      if (e.target.isContentEditable && e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        e.target.blur();
+      }
+    });
+  </script>
+</body>
+</html>
