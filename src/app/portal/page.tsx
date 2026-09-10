@@ -59,14 +59,9 @@ export default async function PortalDashboard() {
           <p className="text-sm font-bold uppercase tracking-wider text-sky-400">Customer portal</p>
           <h1 className="mt-1 text-3xl font-semibold">Repair dashboard</h1>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/portal/rmas/new" className="rounded bg-electric px-5 py-2.5 text-sm font-bold hover:brightness-110">
-            + New RMA request
-          </Link>
-          <Link href="/invoice" className="rounded border border-blue-900 px-5 py-2.5 text-sm font-bold text-sky-300 transition hover:border-blue-500">
-            Create invoice
-          </Link>
-        </div>
+        <Link href="/portal/rmas/new" className="rounded bg-electric px-5 py-2.5 text-sm font-bold hover:brightness-110">
+          + New RMA request
+        </Link>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
