@@ -5,9 +5,18 @@ import { Download, Plus, Trash2 } from "lucide-react";
 
 const BUSINESS = {
   name: "NiNes Hardware Lab",
+  tagline: "Enterprise Electronics Repair Laboratory",
   email: "nineshardware.lab@gmail.com",
   phone: "+254 181 246 914",
+  whatsapp: "+254 181 246 914",
   site: "nines-hardware-lab.vercel.app",
+};
+
+const PAYMENT_PRESETS: Record<string, string> = {
+  Cash: "Cash payment on collection / delivery of equipment.",
+  "M-Pesa": "M-Pesa Paybill: XXXXX\nAccount: (invoice no.)\nBusiness name: NiNes Hardware Lab",
+  Bank: "Bank: XXXX Bank\nAccount name: NiNes Hardware Lab\nAccount no.: XXXXXXXXXX\nBranch: XXXX\nSWIFT (international): XXXXXXXX",
+  Card: "Card payment on collection / delivery. Call or WhatsApp to arrange.",
 };
 
 type LineItem = { id: number; description: string; qty: string; unitPrice: string };
@@ -28,6 +37,8 @@ export default function InvoicePage() {
   const [clientContact, setClientContact] = useState("");
   const [currency, setCurrency] = useState("KES");
   const [taxRate, setTaxRate] = useState("16");
+  const [paymentMethod, setPaymentMethod] = useState("M-Pesa");
+  const [paymentDetails, setPaymentDetails] = useState(PAYMENT_PRESETS["M-Pesa"]);
   const [notes, setNotes] = useState("Thank you for your business. Payment is due within 7 days.");
   const [items, setItems] = useState<LineItem[]>([{ ...emptyItem(), description: "Repair service" }]);
 
@@ -118,10 +129,19 @@ export default function InvoicePage() {
       y += isTotal ? 0 : 7;
     });
 
+    doc.text(`${BUSINESS.name} — ${BUSINESS.tagline} · ${BUSINESS.email} · ${BUSINESS.phone} · ${BUSINESS.site}`, 14, 288);
+
+    // Payment method block
+    const payY = Math.max(afterItems + 40, y + 14);
+    doc.setFontSize(10);
+    doc.setTextColor(30, 30, 30);
+    doc.text(`Payment method: ${paymentMethod}`, 14, payY);
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
-    doc.text(doc.splitTextToSize(notes, 180), 14, Math.max(afterItems + 40, y + 14));
-    doc.text(`${BUSINESS.name} — Enterprise electronics repair laboratory`, 14, 288);
+    doc.text(doc.splitTextToSize(paymentDetails, 180), 14, payY + 6);
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text(doc.splitTextToSize(notes, 180), 14, payY + 6 + doc.splitTextToSize(paymentDetails, 180).length * 5 + 4);
 
     doc.save(`${invoiceNo || "invoice"}.pdf`);
   }
@@ -186,9 +206,32 @@ export default function InvoicePage() {
           </div>
         </section>
 
+        <section className="grid gap-4 rounded-lg border border-blue-900/80 bg-panel p-6 sm:grid-cols-[150px_1fr]">
+          <div>
+            <p className={label}>Payment method</p>
+            <select
+              className={`${input} mt-2`}
+              value={paymentMethod}
+              onChange={(e) => {
+                setPaymentMethod(e.target.value);
+                setPaymentDetails(PAYMENT_PRESETS[e.target.value] ?? "");
+              }}
+            >
+              <option>Cash</option>
+              <option>M-Pesa</option>
+              <option>Bank</option>
+              <option>Card</option>
+            </select>
+          </div>
+          <div>
+            <p className={label}>Payment details (printed on invoice — replace XXXX with your numbers)</p>
+            <textarea className={`${input} mt-2`} rows={4} value={paymentDetails} onChange={e => setPaymentDetails(e.target.value)} />
+          </div>
+        </section>
+
         <section className="grid gap-4 rounded-lg border border-blue-900/80 bg-panel p-6 sm:grid-cols-[110px_1fr]">
           <div><p className={label}>VAT %</p><input className={`${input} mt-2`} type="number" min="0" value={taxRate} onChange={e => setTaxRate(e.target.value)} /></div>
-          <div><p className={label}>Notes</p><textarea className={`${input} mt-2`} rows={3} value={notes} onChange={e => setNotes(e.target.value)} /></div>
+          <div><p className={label}>Notes</p><textarea className={`${input} mt-2`} rows={2} value={notes} onChange={e => setNotes(e.target.value)} /></div>
         </section>
       </div>
     </div>
