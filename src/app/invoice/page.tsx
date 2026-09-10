@@ -147,7 +147,14 @@ export default function InvoicePage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
+      <header className="border-b border-blue-950 bg-ink/80">
+        <div className="mx-auto flex max-w-6xl items-center justify-between p-4">
+          <a href="/" className="text-sm font-bold uppercase tracking-wider text-sky-400">NiNes Hardware Lab</a>
+          <span className="text-xs uppercase tracking-wider text-slate-500">Internal invoice tool</span>
+        </div>
+      </header>
+      <main className="mx-auto max-w-6xl p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold">Create invoice</h1>
@@ -234,6 +241,7 @@ export default function InvoicePage() {
           <div><p className={label}>Notes</p><textarea className={`${input} mt-2`} rows={2} value={notes} onChange={e => setNotes(e.target.value)} /></div>
         </section>
       </div>
+      </main>
     </div>
   );
 }

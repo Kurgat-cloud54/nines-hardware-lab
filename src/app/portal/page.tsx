@@ -63,7 +63,7 @@ export default async function PortalDashboard() {
           <Link href="/portal/rmas/new" className="rounded bg-electric px-5 py-2.5 text-sm font-bold hover:brightness-110">
             + New RMA request
           </Link>
-          <Link href="/portal/invoice" className="rounded border border-blue-900 px-5 py-2.5 text-sm font-bold text-sky-300 transition hover:border-blue-500">
+          <Link href="/invoice" className="rounded border border-blue-900 px-5 py-2.5 text-sm font-bold text-sky-300 transition hover:border-blue-500">
             Create invoice
           </Link>
         </div>
