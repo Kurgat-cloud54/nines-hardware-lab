@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Activity, ArrowRight, Cable, ClipboardCheck, Cpu, Factory, Mail, MapPin, MessageCircle, Network, PackageCheck, Phone, ServerCog, ShieldCheck, Wrench } from "lucide-react";
+import { BenchMarquee, HeroSlideshow } from "@/components/marketing/bench-photos";
 import { Button } from "@/components/ui/button";
 import { contact } from "@/lib/contact";
 
@@ -28,18 +28,13 @@ const steps = [
   ["Repair, test & return", "Approved repairs are carried out, tested under load and returned with a repair report.", Wrench],
 ] as const;
 
-const bench = [
-  ["inverter-03.jpeg", "Hybrid inverter opened for board-level diagnosis"],
-  ["inverter-18.jpeg", "Inverter power board on the bench"],
-  ["inverter-21.jpeg", "Control and power stage under repair"],
-  ["inverter-28.jpeg", "Power supply board under inspection"],
-] as const;
-
 const customers = ["Internet service providers", "Telecom operators", "IT integrators & data centres", "Banks & financial institutions", "Universities", "Government ICT departments", "Manufacturers & industry"];
 
 const eyebrow = "text-xs font-bold uppercase tracking-wider text-sky-400";
 
-export function HomePage() {
+export function HomePage({ photos }: { photos: string[] }) {
+  const start = Math.max(photos.indexOf("inverter-19.jpeg"), 0);
+  const heroPhotos = [...photos.slice(start), ...photos.slice(0, start)];
   return <main>
     <section className="hero-glow grid-bg relative overflow-hidden border-b border-blue-950">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:py-20 lg:grid-cols-[1.1fr_.9fr]">
@@ -54,7 +49,7 @@ export function HomePage() {
           <Link href="/why-repair" className="mt-6 inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-sky-400">Not sure whether to repair or replace? <ArrowRight className="h-4 w-4" /></Link>
         </motion.div>
         <motion.figure initial={{ opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .7 }} className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl border border-blue-500/30 shadow-glow">
-          <Image src="/images/gallery/inverter-19.jpeg" alt="Taking measurements with a multimeter on the NiNes bench" fill priority sizes="(max-width: 1024px) 90vw, 450px" className="object-cover" />
+          <HeroSlideshow photos={heroPhotos} />
           <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#030b15] via-[#030b15]/80 to-transparent p-6 pt-16"><p className="text-xs font-bold uppercase tracking-[.22em] text-blue-300">From our bench</p><p className="mt-2 text-lg font-semibold">Diagnosed, measured and verified before it leaves the lab.</p></figcaption>
         </motion.figure>
       </div>
@@ -74,9 +69,9 @@ export function HomePage() {
       <ol className="mt-10 grid gap-5 md:grid-cols-3">{steps.map(([title, text, Icon], index) => <li key={title} className="rounded-lg border border-blue-900/80 bg-[#061221] p-6"><div className="flex items-center justify-between"><span className="text-sm font-bold text-sky-400">0{index + 1}</span><Icon className="h-7 w-7 text-electric" /></div><h3 className="mt-8 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-400">{text}</p></li>)}</ol>
     </div></section>
 
-    <section className="mx-auto max-w-7xl px-5 py-20">
-      <div className="flex flex-wrap items-end justify-between gap-6"><div className="max-w-2xl"><p className={eyebrow}>From the bench</p><h2 className="mt-2 text-4xl font-semibold">Real repairs, done in our lab.</h2></div><Button href="/gallery" variant="outline">View the gallery</Button></div>
-      <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">{bench.map(([file, alt]) => <Link key={file} href="/gallery" className="relative aspect-square overflow-hidden rounded-lg border border-blue-900/80 bg-panel"><Image src={`/images/gallery/${file}`} alt={alt} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-300 hover:scale-105" /></Link>)}</div>
+    <section className="py-20">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-6 px-5"><div className="max-w-2xl"><p className={eyebrow}>From the bench</p><h2 className="mt-2 text-4xl font-semibold">Real repairs, done in our lab.</h2><p className="mt-4 text-slate-400">{photos.length} photos from recent jobs. Hover or tap to pause.</p></div><Button href="/gallery" variant="outline">View the gallery</Button></div>
+      <div className="mt-10"><BenchMarquee photos={photos} /></div>
     </section>
 
     <section className="border-t border-blue-950"><div className="mx-auto max-w-7xl px-5 py-14"><p className={eyebrow}>Who we work with</p><div className="mt-5 flex flex-wrap gap-3">{customers.map(item => <span key={item} className="rounded-full border border-blue-900/80 bg-panel px-4 py-2 text-sm text-slate-300">{item}</span>)}</div></div></section>
